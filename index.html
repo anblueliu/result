@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+        background: hsla(215, 95%, 20%, 1);
+    }
+</style>
+
+<body>
+    <canvas id="canv" width="553" height="616"></canvas>
+</body>
+
+</html>
+<script>
+    var c = document.getElementById('canv'),
+        $ = c.getContext('2d'),
+        w = c.width = window.innerWidth,
+        h = c.height = window.innerHeight,
+        t = 0,
+        num = 350,
+        s, a, b,
+        x, y, _x, _y,
+        _t = 1 / 60;
+
+    var anim = function() {
+        $.globalCompositeOperation = 'source-over';
+        $.fillStyle = 'hsla(215, 95%, 20%, .6)';
+        $.fillRect(0, 0, w, h);
+        $.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < 1; i++) {
+            x = 0;
+            $.beginPath();
+            for (var j = 0; j < num; j++) {
+                x -= .36 * Math.sin(7);
+                y = x * Math.sin(i + 3.0 * t + x / 20.9) / .88;
+                _x = x * Math.cos(b) - y * Math.sin(b);
+                _y = x * Math.sin(b) + y * Math.cos(b);
+                b = (j * 2) * Math.PI / 3;
+                $.lineWidth = .1;
+                $.lineTo(w / 2 - _x, h / 2 - _y);
+            }
+
+            $.strokeStyle = 'hsla(214, 95%, 95%, 1)';
+            $.stroke();
+        }
+        t += _t;
+        window.requestAnimationFrame(anim);
+    };
+    anim();
+
+    window.addEventListener('resize', function() {
+        c.width = w = window.innerWidth;
+        c.height = h = window.innerHeight;
+    }, false);
+</script>
